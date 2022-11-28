@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { Container, Table, Spinner } from "react-bootstrap";
-import "./index.css";
-import CryptoRow from "./CryptoRow";
+import { useEffect } from "react"
+import axios from "axios"
+import { Container, Table, Spinner } from "react-bootstrap"
+import "./index.css"
+import { useSelector, useDispatch } from 'react-redux'
+import CryptoRow from "./CryptoRow"
+import { saveCoins } from '../../redux/crypto/action'
 
 const Crypto = () => {
-  const [cryptoCoins, setCryptoCoin] = useState([]);
+	const cryptoCoins = useSelector((store) => store.coins)
+	const dispatch = useDispatch()
 
   useEffect(() => {
     axios
       .get(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
       )
-      .then((res) => setCryptoCoin(res.data))
+      .then((res) => dispatch(saveCoins(res.data)))
       .catch((err) => console.log(err));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container>
