@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import axios from "axios"
-import { Container, Table, Spinner } from "react-bootstrap"
+import { Table, Spinner } from "react-bootstrap"
 import "./index.css"
 import { useSelector, useDispatch } from 'react-redux'
 import CryptoRow from "./CryptoRow"
 import { saveCoins } from '../../redux/crypto/action'
 
 const Crypto = () => {
-	const cryptoCoins = useSelector((store) => store.coins)
+	const cryptoCoins = useSelector((store) => store.coinsReducer.coins)
 	const dispatch = useDispatch()
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const Crypto = () => {
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       {cryptoCoins.length ? (
         <Table hover variant="dark">
           <tbody>
@@ -32,7 +32,7 @@ const Crypto = () => {
       ) : (
         <Spinner animation="border" />
       )}
-    </Container>
+    </>
   );
 };
 
